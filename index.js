@@ -1,34 +1,14 @@
-const express = require('express');
-const app = express();
+const TelegramBot = require('node-telegram-bot-api');
 
-const { Telegraf } = require('telegraf');
+const token = process.env.TELEGRAM_TOKEN;
+const bot = new TelegramBot(token, { polling: true });
 
-app.get('/', (req, res) => {
 
-    res.send(getCurrentInfo());
-    console.log("/ accessed");
 
+bot.on('message', (msg) => {
+    const chatId = msg.chat.id;
+    bot.sendMessage(chatId, getCurrentInfo());
 });
-
-
-let bot;
-if (process.env.environment == "PRODUCTION") { // if environment is "Production"
-    bot = new Telegraf(process.env.TELEGRAM_TOKEN);
-    bot.startWebhook(`/${process.env.TELEGRAM_TOKEN}`, null, 8443);
-    console.log("Bot started");
-    // Setting webhook URL path
-} else { // Else local
-    //bot = new Telegraf(config.TEST_BOT_TOKEN);
-}
-
-bot.start((ctx) => ctx.reply('Welcome'));
-console.log("welcome message sent");
-
-bot.on('text', async (ctx) => {
-    console.log("text received");
-    await ctx.reply(getCurrentInfo());
-});
-
 
 
 

@@ -7,8 +7,7 @@
         "start": "node index.js"
     },
     "dependencies": {
-        "express": "^4.17.1",
-        "telegraf": "^4.0.0"
+        "node-telegram-bot-api": "^0.61.0"
     },
     "devDependencies": {
         "nodemon": "^2.0.4"
