@@ -6,30 +6,29 @@ const { Telegraf } = require('telegraf');
 app.get('/', (req, res) => {
 
     res.send(getCurrentInfo());
+    console.log("/ accessed");
 
 });
 
 
 let bot;
-if (process.env.environment == "PRODUCTION") {
-    bot.launch({
-        webhook: {
-            domain: process.env.CYCLIC_URL,// Your domain URL (where server code will be deployed)
-            port: process.env.PORT || 8000
-        }
-    }).then(() => {
-        console.info(`The bot ${bot.botInfo.username} is running on server`);
-    });
+if (process.env.environment == "PRODUCTION") { // if environment is "Production"
+    bot = new Telegraf(process.env.TELEGRAM_TOKEN);
+    bot.startWebhook(`/${process.env.TELEGRAM_TOKEN}`, null, 8443);
+    console.log("Bot started");
+    // Setting webhook URL path
 } else { // Else local
     //bot = new Telegraf(config.TEST_BOT_TOKEN);
 }
 
 bot.start((ctx) => ctx.reply('Welcome'));
+console.log("welcome message sent");
 
 bot.on('text', async (ctx) => {
-
+    console.log("text received");
     await ctx.reply(getCurrentInfo());
 });
+
 
 
 
