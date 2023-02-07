@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
     res.send('<html><body style="background-color: red; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;"><div style="background-color: white; height: 50px; width: 50px; border-radius: 25px;"></div></body></html>');
 });
 
-const port = process.env.PORT || 8080;
+const port = 4000;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
