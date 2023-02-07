@@ -1,14 +1,31 @@
 const TelegramBot = require('node-telegram-bot-api');
+const express = require('express');
+const app = express();
+
 
 const token = '6153795364:AAE2F6PyuuZPm5MG9l1JSuC5h_9BLKaAS2Y';
 const bot = new TelegramBot(token, { polling: true });
 
-
+bot.onText(/\/echo (.+)/, (msg, match) => {
+    const chatId = msg.chat.id;
+    const resp = match[1];
+    bot.sendMessage(chatId, resp);
+});
 
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
-    bot.sendMessage(chatId, getCurrentInfo());
+    bot.sendMessage(chatId, 'Received your message');
 });
+
+app.get('/', (req, res) => {
+    res.send('<html><body style="background-color: red; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;"><div style="background-color: white; height: 50px; width: 50px; border-radius: 25px;"></div></body></html>');
+});
+
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
+
 
 
 
