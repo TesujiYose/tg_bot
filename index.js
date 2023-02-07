@@ -4,13 +4,7 @@ const app = express();
 
 
 const token = '6153795364:AAE2F6PyuuZPm5MG9l1JSuC5h_9BLKaAS2Y';
-const bot = new TelegramBot(token, { polling: true });
-
-bot.onText(/\/echo (.+)/, (msg, match) => {
-    const chatId = msg.chat.id;
-    const resp = match[1];
-    bot.sendMessage(chatId, resp);
-});
+const bot = new TelegramBot(token, { polling: true, webHook: { port: process.env.PORT || 8080 } });
 
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
