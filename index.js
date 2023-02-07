@@ -9,7 +9,14 @@ app.get('/', (req, res) => {
 
 });
 
-const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
+
+let bot;
+if (process.env.environment == "PRODUCTION") { // if environment is "Production"
+    bot = new Telegraf(process.env.TELEGRAM_TOKEN);
+    bot.startWebhook(`/${process.env.TELEGRAM_TOKEN}`, null, 8443); // Setting webhook URL path
+} else { // Else local
+    //bot = new Telegraf(config.TEST_BOT_TOKEN);
+}
 
 bot.start((ctx) => ctx.reply('Welcome'));
 
@@ -18,7 +25,6 @@ bot.on('text', async (ctx) => {
     await ctx.reply(getCurrentInfo());
 });
 
-bot.launch();
 
 
 function getCurrentInfo() {
