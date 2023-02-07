@@ -11,9 +11,15 @@ app.get('/', (req, res) => {
 
 
 let bot;
-if (process.env.environment == "PRODUCTION") { // if environment is "Production"
-    bot = new Telegraf(process.env.TELEGRAM_TOKEN);
-    bot.startWebhook(`/${process.env.TELEGRAM_TOKEN}`, null, 8443); // Setting webhook URL path
+if (process.env.environment == "PRODUCTION") {
+    bot.launch({
+        webhook: {
+            domain: process.env.CYCLIC_URL,// Your domain URL (where server code will be deployed)
+            port: process.env.PORT || 8000
+        }
+    }).then(() => {
+        console.info(`The bot ${bot.botInfo.username} is running on server`);
+    });
 } else { // Else local
     //bot = new Telegraf(config.TEST_BOT_TOKEN);
 }
