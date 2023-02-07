@@ -4,7 +4,7 @@ const app = express();
 
 
 const token = '6153795364:AAE2F6PyuuZPm5MG9l1JSuC5h_9BLKaAS2Y';
-const bot = new TelegramBot(token, { webHook: { port: process.env.PORT || 8080 } });
+const bot = new TelegramBot(token, { webHook: { port: 8443 } });
 
 bot.on('message', (msg) => {
     const chatId = msg.chat.id;
